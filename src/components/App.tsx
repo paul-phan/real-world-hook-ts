@@ -1,20 +1,25 @@
 import React from 'react';
 import {Header} from "./Header";
-import {Route} from "wouter";
+import {Route, Switch} from "wouter";
 import Home from "./Home";
-import {useToken} from "../store/token";
+import Login from "./Login";
 
 const App: React.FC = () => {
 
-  const {token} = useToken()
   return (
     <div className="App">
       <Header/>
-      <Route path="/">
-        <Home token={token}/>
-      </Route>
+        <Switch>
+            <Route path="/login">
+                <Login/>
+            </Route>
+            <Route path="/:rest*">
+                <Home/>
+            </Route>
+        </Switch>
     </div>
   );
 }
 
 export default App;
+

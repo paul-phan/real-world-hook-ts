@@ -1,7 +1,9 @@
 import React from 'react'
 import {Link} from 'wouter'
+import {useUser} from "../store/user";
 
 export const Header = () => {
+    const {user} = useUser()
     return (
         <nav className="navbar navbar-light">
             <div className="container">
@@ -10,19 +12,26 @@ export const Header = () => {
                     <li className="nav-item">
                         <Link className="nav-link active" to="/home">Home</Link>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="">
-                            <i className="ion-compose" />&nbsp;New Post
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="">
-                            <i className="ion-gear-a" />&nbsp;Settings
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="">Sign up</a>
-                    </li>
+                    {user ? <>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/editor">
+                                <i className="ion-compose"/>&nbsp;New Post
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/settings">
+                                <i className="ion-gear-a"/>&nbsp;Settings
+                            </Link>
+                        </li>
+                    </> : <>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/login">Sign in</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/register">Sign up</Link>
+                        </li>
+                    </>}
+
                 </ul>
             </div>
         </nav>
