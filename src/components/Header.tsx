@@ -1,10 +1,8 @@
 import React from 'react'
 import {Link} from 'wouter'
-import {useUser} from "../store/user";
 import {appName} from "../store/app";
 
-export const Header = () => {
-    const {user} = useUser()
+export const Header = ({user}) => {
     return (
         <nav className="navbar navbar-light">
             <div className="container">
@@ -22,6 +20,11 @@ export const Header = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/settings">
                                 <i className="ion-gear-a"/>&nbsp;Settings
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to={`/user/${user.username}`}>
+                                <i className="ion-gear-a"/>&nbsp;{user.username}
                             </Link>
                         </li>
                     </> : <>

@@ -1,11 +1,19 @@
 import {Link} from "wouter";
 import React, {useState} from 'react'
+import {login} from "../store/user";
+import {setToken} from "../store/api";
 
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [errors, setErrors] = useState(null)
     const handleSubmitForm = (e) => {
         e.preventDefault()
+        login({email, password}).then((res: any) => {
+            if (res.user) {
+                setToken(res.user.token)
+            }
+        })
     }
     const handleEmailChange = (e) => setEmail(e.target.value)
     const handlePasswordChange = (e) => setPassword(e.target.value)
@@ -22,7 +30,7 @@ export default function Login() {
                             </Link>
                         </p>
 
-                        {/*<ListErrors errors={errors} />*/}
+                        {errors && <ListErrors errors={errors}/>}
 
                         <form onSubmit={handleSubmitForm}>
                             <fieldset>
@@ -62,5 +70,22 @@ export default function Login() {
                 </div>
             </div>
         </div>
+    );
+}
+
+
+const ListErrors = ({errors}) => {
+    return (
+        <ul className="error-messages">
+            {
+                Object.keys(errors).map(key => {
+                    return (
+                        <li key={key}>
+                            {key} {errors[key]}
+                        </li>
+                    );
+                })
+            }
+        </ul>
     );
 }

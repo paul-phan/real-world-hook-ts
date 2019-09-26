@@ -5,8 +5,9 @@ import {Link, useRoute} from "wouter";
 
 const ArticleList = () => {
     const [, params] = useRoute("/tags/:tag");
+    const [matchFeedParam] = useRoute("/feed");
     const [page, setPage] = useState(0)
-    const {articleStore, loading} = useArticles(page, (params && params.tag), setPage)
+    const {articleStore, loading} = useArticles(page, (params && params.tag), setPage, matchFeedParam)
     const totalPagesCount = Math.ceil(articleStore.articlesCount / ARTICLE_PER_PAGE);
     if (loading && articleStore.articles.length === 0) {
         return (

@@ -19,20 +19,17 @@ const Banner = () => {
     );
 };
 
-const YourFeedTab = props => {
-    if (props.currentUser) {
-        return (
-            <li className="nav-item">
-                <ActiveLink
-                    class="nav-link"
-                    to={'/feed'}
-                >
-                    Your Feed
-                </ActiveLink>
-            </li>
-        );
-    }
-    return null;
+const YourFeedTab = () => {
+    return (
+        <li className="nav-item">
+            <ActiveLink
+                class="nav-link"
+                to={'/feed'}
+            >
+                Your Feed
+            </ActiveLink>
+        </li>
+    );
 };
 
 const GlobalFeedTab = () => {
@@ -57,16 +54,13 @@ const TagFilterTab = props => {
     );
 };
 
-const MainView = () => {
+const MainView = ({user}) => {
     const [match, params] = useRoute("/tags/:tag");
     return (
         <div className="col-md-9">
             <div className="feed-toggle">
                 <ul className="nav nav-pills outline-active">
-                    <YourFeedTab
-                        // currentUser={currentUser}
-                        // tab={this.getTab()}
-                    />
+                    {user && <YourFeedTab/>}
                     <GlobalFeedTab/>
                     {match && params && <TagFilterTab tag={params.tag}/>}
                 </ul>
@@ -77,7 +71,7 @@ const MainView = () => {
     );
 }
 
-export default function Home() {
+export default function Home({user}) {
     return (
         <div className="home-page">
 
@@ -85,7 +79,7 @@ export default function Home() {
 
             <div className="container page">
                 <div className="row">
-                    <MainView />
+                    <MainView user={user}/>
                     <div className="col-md-3">
                         <div className="sidebar">
 

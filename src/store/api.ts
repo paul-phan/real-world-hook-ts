@@ -1,32 +1,35 @@
 import ky from 'ky'
 
-
-
-export const api = ky.create({prefixUrl: 'https://conduit.productionready.io/api'});
-
-const limit = (count: number, p: number) => `limit=${count}&offset=${p ? p * count : 0}`;
-const omitSlug = (article: object) => Object.assign({}, article, { slug: undefined })
-
 let token = window.localStorage.getItem('jwt');
+
+
+const defaultOptions: any = {
+    prefixUrl: 'https://conduit.productionready.io/api',
+    headers: {}
+}
+
+if (token) {
+    Object.assign(defaultOptions.headers, {authorization: `Token ${token}`})
+}
+export let api = ky.create(defaultOptions);
+
+
 
 export function setToken(newToken: string) {
     token = newToken
     window.localStorage.setItem('jwt', token);
+    Object.assign(defaultOptions.headers, {authorization: `Token ${token}`})
 }
+
+
 
 export function removeToken() {
     token = null
     window.localStorage.removeItem('jwt');
+    delete defaultOptions.headers.token
 }
 
 export function getToken() {
     return token
 }
-
-const handleErrors = (err: any) => {
-    if (err && err.response && err.response.status === 401) {
-        // authStore.logout();
-    }
-    return err;
-};
 
