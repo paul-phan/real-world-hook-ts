@@ -1,1 +1,1 @@
-export const appName = 'Minh'
+export const appName = 'conduit'

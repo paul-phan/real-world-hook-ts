@@ -1,13 +1,14 @@
 import React from 'react'
 import {Link} from 'wouter'
 import {useUser} from "../store/user";
+import {appName} from "../store/app";
 
 export const Header = () => {
     const {user} = useUser()
     return (
         <nav className="navbar navbar-light">
             <div className="container">
-                <Link className="navbar-brand" to="/">Conduit</Link>
+                <Link className="navbar-brand" to="/">{appName}</Link>
                 <ul className="nav navbar-nav pull-xs-right">
                     <li className="nav-item">
                         <Link className="nav-link active" to="/home">Home</Link>

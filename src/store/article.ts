@@ -5,10 +5,13 @@ import {api} from "./api";
 const articlesSubscription = createSubscription({articles: [], articlesCount: 0})
 export const ARTICLE_PER_PAGE = 10;
 
-export const useArticles = (page = '0', tag: any = '') => {
+export const useArticles = (page = 0, tag: any = '', setPage) => {
     const {state, setState} = useSubscription(articlesSubscription)
     const [loading, setLoading] = useState(true)
 
+    useEffect(() => {
+        setPage(0)
+    }, [tag])
 
     useEffect(() => {
         let mounted = true

@@ -1,14 +1,13 @@
 import LoadingSpinner from './LoadingSpinner';
-import React from 'react';
+import React, {useState} from 'react';
 import {ARTICLE_PER_PAGE, useArticles} from "../store/article";
 import {Link, useRoute} from "wouter";
 
 const ArticleList = () => {
     const [, params] = useRoute("/tags/:tag");
-    const [, articleParam] = useRoute("/articles/:page");
-    const {articleStore, loading} = useArticles((articleParam && articleParam.page) || '0', (params && params.tag))
+    const [page, setPage] = useState(0)
+    const {articleStore, loading} = useArticles(page, (params && params.tag), setPage)
     const totalPagesCount = Math.ceil(articleStore.articlesCount / ARTICLE_PER_PAGE);
-
     if (loading && articleStore.articles.length === 0) {
         return (
             <LoadingSpinner/>
@@ -23,6 +22,9 @@ const ArticleList = () => {
         );
     }
 
+    const onSetPage = (nextPage) => {
+        setPage(nextPage)
+    }
 
     return (
         <div>
@@ -35,8 +37,9 @@ const ArticleList = () => {
             }
 
             {totalPagesCount > 1 && <ListPagination
+                onSetPage={onSetPage}
                 totalPagesCount={totalPagesCount}
-                currentPage={articleParam && articleParam.page}
+                currentPage={page}
             />}
         </div>
     );
@@ -106,13 +109,19 @@ const ListPagination = props => {
 
                 {
                     range.map(v => {
-                        const isCurrent = v === Number(props.currentPage) - 1;
+                        const isCurrent = v === props.currentPage;
+                        const onClick = ev => {
+                            ev.preventDefault();
+                            props.onSetPage(v);
+                        };
                         return (
                             <li
                                 className={isCurrent ? 'page-item active' : 'page-item'}
-                                key={v.toString()}
+                                onClick={onClick}
+                                key={v}
                             >
-                                <Link className="page-link" to={`/articles/${v + 1}`}>{v + 1}</Link>
+                                <a className="page-link" href="/#">{v + 1}</a>
+
                             </li>
                         );
                     })
