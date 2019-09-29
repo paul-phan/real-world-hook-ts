@@ -26,7 +26,7 @@ export function setToken(newToken: string) {
 export function removeToken() {
     token = null
     window.localStorage.removeItem('jwt');
-    delete defaultOptions.headers.token
+	delete defaultOptions.headers.authorization
 }
 
 export function getToken() {

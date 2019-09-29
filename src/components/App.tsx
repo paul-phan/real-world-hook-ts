@@ -4,6 +4,7 @@ import {Route, Switch} from "wouter";
 import Home from "./Home";
 import Login from "./Login";
 import {useUser} from "../store/user";
+import User from "./User";
 
 const App: React.FC = () => {
     const {user} = useUser()
@@ -13,7 +14,10 @@ const App: React.FC = () => {
         <Switch>
             <Route path="/login">
                 <Login/>
-            </Route>
+			</Route>
+			<Route path="/user/:username/:rest*">
+				<User user={user}/>
+			</Route>
             <Route path="/:rest*">
                 <Home user={user}/>
             </Route>

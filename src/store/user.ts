@@ -13,11 +13,12 @@ export const useUser = () => {
                 setState(user)
             })
         }
-    }, [])
+	}, [setState])
     return {user: state, setUser: setState}
 }
 
 
 export const login = ({email, password}) => api.post('users/login', {
-    json: {user: {email, password}}
+	json: {user: {email, password}},
+	throwHttpErrors: false
 }).json()

@@ -1,18 +1,25 @@
-import {Link} from "wouter";
+import {Link, useLocation} from "wouter";
 import React, {useState} from 'react'
-import {login} from "../store/user";
+import {login, useUser} from "../store/user";
 import {setToken} from "../store/api";
 
 export default function Login() {
+	const {setUser} = useUser()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState(null)
+	const [, setLocation] = useLocation();
     const handleSubmitForm = (e) => {
         e.preventDefault()
         login({email, password}).then((res: any) => {
+			console.log(res)
             if (res.user) {
+				setUser(res.user)
                 setToken(res.user.token)
-            }
+				setLocation('/')
+			} else if (res.errors) {
+				setErrors(res.errors)
+			}
         })
     }
     const handleEmailChange = (e) => setEmail(e.target.value)

@@ -11,7 +11,7 @@ export const Header = ({user}) => {
                     <li className="nav-item">
                         <Link className="nav-link active" to="/home">Home</Link>
                     </li>
-                    {user ? <>
+					{user.username ? <>
                         <li className="nav-item">
                             <Link className="nav-link" to="/editor">
                                 <i className="ion-compose"/>&nbsp;New Post
